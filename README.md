@@ -27,14 +27,17 @@ $ vagrant ssh backend-02
 $ vagrant ssh backend-03
 ```
 
-Simulate a service with the following commands
+Simulate a service on each backend instance with the following commands. Change the port to mimic a specific service
 
 ```bash
 $ export PORT=1001
 $ while true ; do  echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l -p "$PORT"  ; done
 ```
 
-Look at the HAProxy stats page: http://33.33.33.11:1111/haproxy?stats
+Look at the HAProxy stats page to see the backends come alive: http://33.33.33.11:1111/haproxy?stats
+
+
+From your host machine, use the following utility script to quickly see results from requests using curl (will print a "." if the request was successful (200 OK), an "F" otherwise):
 
 ```bash
 loop_curl () {
@@ -54,7 +57,7 @@ loop_curl () {
 }
 ```
 
-To see how HAProxy handles the requests
+To call the above bash function, pass the IP of the HAProxy instance and the port of the service you are trying to test. The last parameter is how much time you want to sleep between requests (100ms in the example):
 
 ```bash
 $ loop_curl http://33.33.33.11:1001 .1
