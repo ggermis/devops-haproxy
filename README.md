@@ -57,5 +57,5 @@ loop_curl () {
 To see how HAProxy handles the requests
 
 ```bash
-$ loop_curl http://33.33.33.11:1001
+$ loop_curl http://33.33.33.11:1001 .1
 ```
