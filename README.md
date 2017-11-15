@@ -44,7 +44,7 @@ loop_curl () {
 	do
 		if [[ -n $DEBUG ]]
 		then
-			HTTP_CODE="$(curl -s -o/dev/null -w "%{http_code}" a-1-2.spike.apps.up-nxt.com)"
+			HTTP_CODE="$(curl -s -o/dev/null -w "%{http_code}" "$URL")"
 			(( HTTP_CODE != 200 )) && echo -n "[${HTTP_CODE}]" || echo -n "."
 		else
 			curl -fs "$1" -o/dev/null && echo -n "." || echo -n "F"
