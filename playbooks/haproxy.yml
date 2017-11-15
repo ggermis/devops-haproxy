@@ -8,3 +8,11 @@
     - name: install haproxy
       apt: name=haproxy state=present
 
+    - name: update haproxy config
+      template: src=templates/haproxy.cfg dest=/etc/haproxy/haproxy.cfg backup=yes
+      notify:
+        - restart haproxy
+
+  handlers:
+    - name: restart haproxy
+      service: name=haproxy state=restarted

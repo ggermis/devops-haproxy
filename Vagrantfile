@@ -4,6 +4,10 @@ nodes = {
 }
  
 Vagrant.configure("2") do |config|
+  backend_servers = Array.new(nodes[:backend][:count]) do |i| 
+    { name: "backend-0#{i+1}", ip: "33.33.33.#{nodes[:backend][:ip_start]+i}" }
+  end
+
   nodes.each do |prefix, cfg|
     cfg[:count].times do |i|
       hostname = "%s-%02d" % [prefix, (i+1)]
@@ -28,6 +32,9 @@ Vagrant.configure("2") do |config|
         SHELL
 
         box.vm.provision 'ansible' do |ansible|
+          ansible.extra_vars = {
+            backend_servers: backend_servers
+          }
           ansible.playbook = "playbooks/#{prefix}.yml"
         end
       end

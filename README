@@ -1,0 +1,31 @@
+
+h3. Virtual machines
+
+haproxy-01 -> HAProxy server
+
+backend-01 -> Server from backend pool which can run a service
+backend-02 -> Server from backend pool which can run a service
+backend-03 -> Server from backend pool which can run a service
+
+
+h3. Simulate a service running on a specific port on a backend instance
+
+expected ports:
+
+* service-01 -> port 1001
+* service-02 -> port 1002
+
+
+
+h3. To test
+
+$ vagrant ssh backend-01
+$ vagrant ssh backend-02
+$ vagrant ssh backend-03
+
+Simulate a service with the following commands
+
+$ export PORT=1001
+$ while true ; do  echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l -p "$PORT"  ; done
+
+Look at the stats page: http://33.33.33.11:1111/haproxy?stats
