@@ -2,6 +2,11 @@ nodes = {
     'haproxy': { count: 1, ip_start: 11, box: 'ubuntu/xenial64'},
     'backend': { count: 3, ip_start: 21, box: 'ubuntu/xenial64'}  
 }
+
+services = [
+    { name: 'service-01', port: 1001 },
+    { name: 'service-02', port: 1002 },
+]
  
 Vagrant.configure("2") do |config|
   backend_servers = Array.new(nodes[:backend][:count]) do |i| 
@@ -33,7 +38,8 @@ Vagrant.configure("2") do |config|
 
         box.vm.provision 'ansible' do |ansible|
           ansible.extra_vars = {
-            backend_servers: backend_servers
+            backend_servers: backend_servers,
+            services: services
           }
           ansible.playbook = "playbooks/#{prefix}.yml"
         end

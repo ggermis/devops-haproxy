@@ -3,8 +3,7 @@
 
   tasks:
     - name: install haproxy repo
-      apt_repository:
-        repo: 'ppa:vbernat/haproxy-1.7'
+      apt_repository: repo=ppa:vbernat/haproxy-1.7
 
     - name: update apt cache
       apt: update_cache=yes cache_valid_time=3600
@@ -15,8 +14,12 @@
     - name: update haproxy config
       template: src=templates/haproxy.cfg dest=/etc/haproxy/haproxy.cfg backup=yes
       notify:
-        - restart haproxy
+        - reload haproxy
+        - restart rsyslog
 
   handlers:
-    - name: restart haproxy
-      service: name=haproxy state=restarted
+    - name: reload haproxy
+      systemd: name=haproxy state=reloaded
+
+    - name: restart rsyslog
+      systemd: name=rsyslog state=restarted
