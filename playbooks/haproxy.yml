@@ -3,7 +3,7 @@
 
   tasks:
     - name: install haproxy repo
-      apt_repository: repo=ppa:vbernat/haproxy-1.7
+      apt_repository: repo=ppa:vbernat/haproxy-1.8
 
     - name: update apt cache
       apt: update_cache=yes cache_valid_time=3600
